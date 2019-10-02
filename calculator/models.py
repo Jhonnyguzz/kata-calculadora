@@ -5,7 +5,8 @@ from django.db import models
 
 def calculadora(param: str):
     if param == "":
-        return [0, 0, 0]
+        return [0, 0, 0, 0]
     else:
         list_of_numbers = [float(str_number) for str_number in param.split(",")]
-        return [len(list_of_numbers), min(list_of_numbers), max(list_of_numbers)]
+        return [len(list_of_numbers), min(list_of_numbers), max(list_of_numbers),
+                sum(list_of_numbers)/len(list_of_numbers)]
