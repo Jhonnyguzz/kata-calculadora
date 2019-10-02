@@ -4,4 +4,4 @@ from django.db import models
 
 
 def calculadora(param:str):
-    return 0 if param == "" else len(param.split(","))
+    return 0 if param == "" else 0
