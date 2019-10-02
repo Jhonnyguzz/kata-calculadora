@@ -35,3 +35,8 @@ class CalculadoraTest(TestCase):
         arr = calculadora("1,2")
         self.assertEquals(arr[0], 2)
         self.assertEquals(arr[1], 1)
+
+    def test_iteracion_2c4(self):
+        arr = calculadora("1,2,3,4,5,6,6,8")
+        self.assertEquals(arr[0], 8)
+        self.assertEquals(arr[1], 1)
