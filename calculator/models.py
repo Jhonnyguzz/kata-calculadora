@@ -8,4 +8,4 @@ def calculadora(param: str):
         return [0,0]
     else:
         list_of_numbers = [float(str_number) for str_number in param.split(",")]
-        return [len(list_of_numbers)]
+        return [len(list_of_numbers), min(list_of_numbers)]
