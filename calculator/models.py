@@ -9,4 +9,4 @@ def calculadora(param: str):
     else:
         list_of_numbers = [float(str_number) for str_number in param.split(",")]
         return [len(list_of_numbers), min(list_of_numbers), max(list_of_numbers),
-                sum(list_of_numbers)/len(list_of_numbers)]
+                round(sum(list_of_numbers)/len(list_of_numbers), 3)]
