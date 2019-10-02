@@ -40,3 +40,27 @@ class CalculadoraTest(TestCase):
         arr = calculadora("1,2,3,4,5,6,6,8")
         self.assertEquals(arr[0], 8)
         self.assertEquals(arr[1], 1)
+
+    def test_iteracion_3c1(self):
+        arr = calculadora("")
+        self.assertEquals(arr[0], 0)
+        self.assertEquals(arr[1], 0)
+        self.assertEquals(arr[2], 0)
+
+    def test_iteracion_3c2(self):
+        arr = calculadora("1")
+        self.assertEquals(arr[0], 1)
+        self.assertEquals(arr[1], 1)
+        self.assertEquals(arr[2], 1)
+
+    def test_iteracion_3c3(self):
+        arr = calculadora("1,2")
+        self.assertEquals(arr[0], 2)
+        self.assertEquals(arr[1], 1)
+        self.assertEquals(arr[2], 2)
+
+    def test_iteracion_3c4(self):
+        arr = calculadora("1,2,3,4,5,6,6,8")
+        self.assertEquals(arr[0], 8)
+        self.assertEquals(arr[1], 1)
+        self.assertEquals(arr[2], 8)
