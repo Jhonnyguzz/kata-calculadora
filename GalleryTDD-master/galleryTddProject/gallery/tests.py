@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.test import TestCase, Client
+from django.core import serializers
 
 # Create your tests here.
 from .models import Image, Portfolio, Product
@@ -52,12 +53,13 @@ class GalleryTestCase(TestCase):
 
     def test_informacion_usuario(self):
         url = '/gallery/addUser/'
-        data = {"username":"user123", "first_name": "John", "last_name":"Doe", "password":"asdfasdf", "email":"john@hotmail.com"}
-
-        response = self.client.post(url, data, format='json')
-        current_data = json.loads(response.body)
-
-        self.assertEquals(current_data.username, "user123")
-        self.assertEquals(current_data.first_name, "John")
-        self.assertEquals(current_data.last_name, "Doe")
-        self.assertEquals(current_data.email, "john@hotmail.com")
+        data = {"username":"user1235", "first_name": "John", "last_name":"Doe", "password":"asdfasdf", "email":"john@hotmail.com"}
+        to_json = json.dumps(data)
+        response = self.client.post(path=url, data=to_json, content_type="json", format="json")
+        current_data = json.loads(response.content)
+        element = current_data[0]['fields']
+        
+        self.assertEquals(element['username'], "user1235")
+        self.assertEquals(element['first_name'], "John")
+        self.assertEquals(element['last_name'], "Doe")
+        self.assertEquals(element['email'], "john@hotmail.com")
