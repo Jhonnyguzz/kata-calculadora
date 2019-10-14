@@ -49,3 +49,15 @@ class GalleryTestCase(TestCase):
         current_data = json.loads(response.content)
         self.assertEqual(response.status_code, 200)
         self.assertEquals(len(current_data), 2)
+
+    def test_informacion_usuario(self):
+        url = '/gallery/addUser/'
+        data = {"username":"user123", "first_name": "John", "last_name":"Doe", "password":"asdfasdf", "email":"john@hotmail.com"}
+
+        response = self.client.post(url, data, format='json')
+        current_data = json.loads(response.body)
+
+        self.assertEquals(current_data.username, "user123")
+        self.assertEquals(current_data.first_name, "John")
+        self.assertEquals(current_data.last_name, "Doe")
+        self.assertEquals(current_data.email, "john@hotmail.com")
