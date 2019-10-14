@@ -1,16 +1,19 @@
 from django.contrib.auth.models import User
 from django.shortcuts import render
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse
+from django.contrib.auth import authenticate, login
 from django.views.decorators.csrf import csrf_exempt
 from django.core import serializers
 from .models import Image, Portfolio, Product
 import json
+
 
 # Create your views here.
 @csrf_exempt
 def index(request):
     images_list = Image.objects.all()
     return HttpResponse(serializers.serialize("json", images_list))
+
 
 @csrf_exempt
 def add_user_view(request):
@@ -28,6 +31,26 @@ def add_user_view(request):
         user_model.email = email
         user_model.save()
     return HttpResponse(serializers.serialize("json", [user_model]))
+
+
+@csrf_exempt
+def update_user_view(request):
+    if request.method == 'PATCH':
+        json_user = json.loads(request.body)
+        user_id = json_user.pop('id')
+        user_model = User.objects.filter(id=user_id).update(**json_user)
+        return HttpResponse(serializers.serialize("json", [user_model]))
+
+
+@csrf_exempt
+def login_user_view(request):
+    user_data = json.loads(request.body)
+    user_model = authenticate(**user_data)
+    if user_model is not None:
+        login(request, user_model)
+        return HttpResponse(serializers.serialize("json", [user_model]))
+    else:
+        return HttpResponse({'status': 'invalid credentials'})
 
 
 @csrf_exempt
