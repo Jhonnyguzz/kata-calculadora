@@ -72,9 +72,9 @@ class GalleryTestCase(TestCase):
         image_2 = Image.objects.create(name='nuevo2', url='No', description='testImage', type='jpg', user=user_model)
         Product.objects.create(image=image_1, portfolio=portfolio_1)
         Product.objects.create(image=image_2, portfolio=portfolio_1, private=False)
-        response = self.client.get('/gallery/userPublicData/?{}'.format(user_model.id))
+        response = self.client.get('/gallery/userPublicData/{}'.format(user_model.id))
         self.assertEqual(response.status_code, 200)
         current_data = json.loads(response.content)
         self.assertEquals(len(current_data["portfolio"]["products"]), 1)
-        self.assertEquals(current_data["portfolio"]["products"][0].image, image_2)
+        self.assertEquals(current_data["portfolio"]["products"][0]["image_name"], image_2.name)
 

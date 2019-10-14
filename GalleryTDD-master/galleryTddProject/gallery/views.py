@@ -1,9 +1,9 @@
 from django.contrib.auth.models import User
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.core import serializers
-from .models import Image, Portfolio
+from .models import Image, Portfolio, Product
 import json
 
 # Create your views here.
@@ -34,3 +34,18 @@ def add_user_view(request):
 def list_products(request):
     if request.method == 'GET':
         return HttpResponse(serializers.serialize("json", Portfolio.objects.all()))
+
+@csrf_exempt
+def view_portfolio(request, id):
+    if request.method == 'GET':
+        products = []
+        response = {"portfolio":{"products":products}}
+
+        portfolios = Portfolio.objects.filter(user_id=id)
+        for portfolio in portfolios:
+            public_products = Product.objects.filter(portfolio=portfolio, private=False)
+            for product in public_products:
+                products.append({"image_name":product.image.name})
+            break
+        return JsonResponse(response)
+    
