@@ -78,3 +78,26 @@ class GalleryTestCase(TestCase):
         self.assertEquals(len(current_data["portfolio"]["products"]), 1)
         self.assertEquals(current_data["portfolio"]["products"][0].image, image_2)
 
+    def test_user_login(self):
+        user_model = User.objects.create_user(username='user1235', password='kd8wke-DE34', first_name='John',
+                                              last_name='Doe', email='john@hotmail.com')
+        response = self.client.post('/url/login/', json.dumps(
+            {"username": user_model.username, "password": 'kd8wke-DE34'}), content_type='application/json')
+        current_data = json.loads(response.content)
+        element = current_data[0]['fields']
+        self.assertEquals(element['username'], "user1235")
+        self.assertEquals(element['first_name'], "John")
+        self.assertEquals(element['last_name'], "Doe")
+        self.assertEquals(element['email'], "john@hotmail.com")
+
+    def test_update_information(self):
+        url = '/gallery/updateUser/'
+        user_model = User.objects.create_user(username='user1235', password='kd8wke-DE34', first_name='John',
+                                              last_name='Doe', email='john@hotmail.com')
+        data = dict(last_name='jhons', email='john.jhons@hotmail.com')
+        to_json = json.dumps(data)
+        response = self.client.patch(path=url, data=to_json, content_type="json", format="json")
+        current_data = json.loads(response.content)
+        element = current_data[0]['fields']
+        self.assertEquals(element['last_name'], "jhons")
+        self.assertEquals(element['email'], "john.jhons@hotmail.com")
