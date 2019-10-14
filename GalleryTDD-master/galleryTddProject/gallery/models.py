@@ -19,3 +19,4 @@ class Product(models.Model):
     name = models.CharField(max_length=200)
     private = models.BooleanField(default=True)
     image = models.ForeignKey(Image, null=True, on_delete=models.PROTECT)
+    portfolio = models.ForeignKey(Portfolio, null=True, on_delete=models.PROTECT)
