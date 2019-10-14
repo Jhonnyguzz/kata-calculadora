@@ -94,7 +94,7 @@ class GalleryTestCase(TestCase):
         url = '/gallery/updateUser/'
         user_model = User.objects.create_user(username='user1235', password='kd8wke-DE34', first_name='John',
                                               last_name='Doe', email='john@hotmail.com')
-        data = dict(last_name='jhons', email='john.jhons@hotmail.com')
+        data = dict(last_name='jhons', email='john.jhons@hotmail.com', id=user_model.id)
         to_json = json.dumps(data)
         response = self.client.patch(path=url, data=to_json, content_type="json", format="json")
         current_data = json.loads(response.content)

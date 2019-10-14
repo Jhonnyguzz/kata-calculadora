@@ -29,6 +29,14 @@ def add_user_view(request):
         user_model.save()
     return HttpResponse(serializers.serialize("json", [user_model]))
 
+@csrf_exempt
+def update_user_view(request):
+    if request.method == 'PATCH':
+        json_user = json.loads(request.body)
+        user_id = json_user.pop('id')
+        user_model = User.objects.filter(id=user_id).update(**json_user)
+    return HttpResponse(serializers.serialize("json", [user_model]))
+
 
 @csrf_exempt
 def list_products(request):
