@@ -81,7 +81,7 @@ class GalleryTestCase(TestCase):
     def test_user_login(self):
         user_model = User.objects.create_user(username='user1235', password='kd8wke-DE34', first_name='John',
                                               last_name='Doe', email='john@hotmail.com')
-        response = self.client.post('/url/login/', json.dumps(
+        response = self.client.post('/gallery/login/', json.dumps(
             {"username": user_model.username, "password": 'kd8wke-DE34'}), content_type='application/json')
         current_data = json.loads(response.content)
         element = current_data[0]['fields']
