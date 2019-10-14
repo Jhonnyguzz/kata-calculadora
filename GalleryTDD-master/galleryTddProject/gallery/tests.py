@@ -72,7 +72,6 @@ class GalleryTestCase(TestCase):
         image_2 = Image.objects.create(name='nuevo2', url='No', description='testImage', type='jpg', user=user_model)
         Product.objects.create(image=image_1, portfolio=portfolio_1)
         Product.objects.create(image=image_2, portfolio=portfolio_1, private=False)
-        token = Token.objects.create()
         response = self.client.get('/gallery/userPublicData/?{}'.format(user_model.id))
         self.assertEqual(response.status_code, 200)
         current_data = json.loads(response.content)
