@@ -28,3 +28,10 @@ def add_user_view(request):
         user_model.email = email
         user_model.save()
     return HttpResponse(serializers.serialize("json", [user_model]))
+
+
+@csrf_exempt
+def list_products(request):
+    if request.method == 'GET':
+        pass
+    return HttpResponse()
