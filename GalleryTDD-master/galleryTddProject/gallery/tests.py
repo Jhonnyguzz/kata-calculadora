@@ -63,3 +63,19 @@ class GalleryTestCase(TestCase):
         self.assertEquals(element['first_name'], "John")
         self.assertEquals(element['last_name'], "Doe")
         self.assertEquals(element['email'], "john@hotmail.com")
+
+    def test_get_public_information(self):
+        user_model = User.objects.create_user(username='test', password='kd8wke-DE34', first_name='test',
+                                              last_name='test', email='test@test.com')
+        portfolio_1 = Portfolio.objects.create(user=user_model)
+        image_1 = Image.objects.create(name='nuevo', url='No', description='testImage', type='jpg', user=user_model)
+        image_2 = Image.objects.create(name='nuevo2', url='No', description='testImage', type='jpg', user=user_model_2)
+        Product.objects.create(image=image_1, portfolio=portfolio_1)
+        Product.objects.create(image=image_2, portfolio=portfolio_1, private=False)
+        token = Token.objects.create()
+        response = self.client.get('/gallery/userPublicData/?{}'.format(token))
+        self.assertEqual(response.status_code, 200)
+        current_data = json.loads(response.content)
+        self.assertEquals(len(current_data["portfolio"]["products"]), 1)
+        self.assertEquals(current_data["portfolio"]["products"][0].image, image_2)
+
